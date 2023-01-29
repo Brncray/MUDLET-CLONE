@@ -1,0 +1,44 @@
+
+
+
+
+
+
+    damage = random.randint(1,6)
+    newHealth = health - damage
+    
+
+    gob_attack(newHealth)
+
+
+
+def kill_gob():
+    if newHealth == 0:
+      print("You killed the Goblin!")
+    else:
+      roll = random.randint(1,20)
+      if monster_name == "Goblin" and roll + 3 >= 8:
+        damage = random.randint(1,6) 
+        print("You hit the Goblin! You did ", damage, "damage!")
+        newHealth = health - damage
+        print("Goblin HP: ", newHealth)
+              
+
+
+
+
+  def gob_attack(newHealth):
+      
+
+    if results[0]['id'] == 1:
+      roll = random.randint(1,20)
+      if monster_name == "Goblin" and roll + 3 >= 8:
+           
+        print("You hit the Goblin! You did ", damage, "damage!")
+        print("Goblin HP: ", newHealth)
+          
+
+          
+
+kill_gob()
+

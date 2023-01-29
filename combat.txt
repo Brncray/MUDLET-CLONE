@@ -1,0 +1,19 @@
+def kill_monster(monster_name, monster_health):
+  damage = random.randint(1,6)
+  newHealth = monster_health - damage
+  print(f"You did {damage} damage to the {monster_name}! The {monster_name} is now at {newHealth} HP!")
+  time.sleep(.5)
+  print(f"The {monster_name} fights back...")
+  monst_damage = random.randint(1,6)
+  monst_new_health = 20 - monst_damage
+  print(f"The {monster_name} did {monst_damage} damage to you! Your current health is {monst_new_health}")
+  time.sleep(.5)
+  if monst_new_health <= 0:
+    print("You have died!")
+  if newHealth > 0:
+    kill_monster(monster_name, newHealth)
+  elif newHealth <= 0:
+    print(f"You've killed the {monster_name}!")
+
+    
+  
