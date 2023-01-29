@@ -20,43 +20,59 @@ monster_data_two = TinyDB('data/monster_data_lvl_two.json')
 
 
 
-def kill_player(monster_name, monster_health, player_health):
+def kill_player(monster_name, monster_health, player_health, xp_health, results):
   if player_health <=0:
     print("You have been killed!")
     
   else:
     dealing_damage = random.randint(1,6)
     player_health = player_health - dealing_damage
+    print(Fore.RED)
     print(f"The {monster_name} has done {dealing_damage} damage to you. You have {player_health} health left.")
+    print(Style.RESET_ALL)
     time.sleep(1)
     if player_health <= 0:
+      print(Fore.RED)
       print("You have died")
+      print(Style.RESET_ALL)
+      xp_given = results[0]['xp'] - 5
+      game_file.update({'xp': xp_given}, App.pin == results[0]['key'])
+      print(Fore.RED)
+      print(f"You have lost {xp_given} XP")
+      print(Style.RESET_ALL)
       input("| ENTER TO CONTINUE |")
       clear()
     else:
-      kill_monster(monster_name, monster_health, player_health)
+      kill_monster(monster_name, monster_health, player_health, xp_health, results)
       
     
 
 
-def kill_monster(monster_name, monster_health, player_health, xp_health):
+def kill_monster(monster_name, monster_health, player_health, xp_health, results):
   if monster_health <=0:
     print(f"The {monster_name} has been killed!")
     
   else:
     dealing_damage = random.randint(1,6)
     monster_health = monster_health - dealing_damage
+    print(Fore.GREEN)
     print(f"You have done {dealing_damage} damage to the {monster_name}. It has {monster_health} health left.")
+    print(Style.RESET_ALL)
     time.sleep(1)
     if monster_health <= 0:
+      print(Fore.GREEN)
       print(f"The {monster_name} has died!")
-      xp_given = xp_health * 0.5
-      print(f"You have earned {xp_given} xp!")
+      print(Style.RESET_ALL)
+      xp_given = xp_health * 0.5 + results[0]['xp']
+      game_file.update({'xp': xp_given}, App.key == results[0]['key'])
+      print(Fore.GREEN)
+      print(f"You now have {xp_given} XP")
+      print(Style.RESET_ALL)
       
       input("| ENTER TO CONTINUE |")
       clear()
     else:
-      kill_player(monster_name, monster_health, player_health)
+      kill_player(monster_name, monster_health, player_health, xp_health, results)
       
   
   
@@ -148,7 +164,6 @@ def main(game_code):
     clear()
     choice = random.sample(monster_list, 1)
     choice_a = str(choice)[2:-2]
-    print(choice_a)
 
     results = monster.search(App.name == choice_a)
     monster_name = results[0]['name']
@@ -166,7 +181,7 @@ def main(game_code):
     clear()
 
     results = game_file.search(App.key == game_code)
-    kill_monster(monster_name, health, results[0]['health'], results[0]['health'])
+    kill_monster(monster_name, health, results[0]['health'], results[0]['health'], results)
     #------------------------------------------------------------ END FIGHT ----------------------------------------
     clear()
     check1()
